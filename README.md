@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # AI-Powered Resume Builder
 
 A modern, AI-enhanced resume builder application that helps users create professional resumes with ease.
@@ -80,3 +81,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Google Gemini API for AI text enhancement
 - Material-UI for the component library
 - Tailwind CSS for styling
+=======
+# New-Ai-resume-Builder
+the upgraded code for the project
+>>>>>>> b58471e21b42b55c5ff9affdd4743f72645df7a5
