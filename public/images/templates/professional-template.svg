@@ -1,0 +1,36 @@
+<svg width="300" height="400" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="300" height="400" fill="#ffffff" />
+  
+  <!-- Header area -->
+  <rect x="0" y="0" width="300" height="80" fill="#F59E0B" />
+  <rect x="30" y="30" width="180" height="25" fill="#ffffff" rx="2" />
+  <rect x="30" y="60" width="120" height="10" fill="#ffffff" rx="2" opacity="0.8" />
+  
+  <!-- Contact info -->
+  <rect x="30" y="100" width="240" height="1" fill="#E5E7EB" />
+  <rect x="30" y="110" width="60" height="8" fill="#D1D5DB" rx="2" />
+  <rect x="100" y="110" width="60" height="8" fill="#D1D5DB" rx="2" />
+  <rect x="170" y="110" width="60" height="8" fill="#D1D5DB" rx="2" />
+  <rect x="30" y="130" width="240" height="1" fill="#E5E7EB" />
+  
+  <!-- Professional Summary -->
+  <rect x="30" y="150" width="150" height="15" fill="#F59E0B" rx="2" />
+  <rect x="30" y="175" width="240" height="8" fill="#D1D5DB" rx="2" />
+  <rect x="30" y="190" width="240" height="8" fill="#D1D5DB" rx="2" />
+  <rect x="30" y="205" width="180" height="8" fill="#D1D5DB" rx="2" />
+  
+  <!-- Experience section -->
+  <rect x="30" y="235" width="150" height="15" fill="#F59E0B" rx="2" />
+  <rect x="30" y="260" width="240" height="8" fill="#D1D5DB" rx="2" />
+  <rect x="30" y="275" width="240" height="8" fill="#D1D5DB" rx="2" />
+  <rect x="30" y="290" width="180" height="8" fill="#D1D5DB" rx="2" />
+  
+  <!-- Education section -->
+  <rect x="30" y="320" width="150" height="15" fill="#F59E0B" rx="2" />
+  <rect x="30" y="345" width="240" height="8" fill="#D1D5DB" rx="2" />
+  <rect x="30" y="360" width="180" height="8" fill="#D1D5DB" rx="2" />
+  
+  <!-- Text label -->
+  <text x="150" y="390" font-family="Arial" font-size="14" fill="#F59E0B" text-anchor="middle">Professional Template</text>
+</svg> 
