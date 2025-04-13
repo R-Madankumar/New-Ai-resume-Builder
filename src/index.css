@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
 
 @layer base {
     :root {
@@ -68,30 +66,11 @@
 
 @layer base {
     * {
-        @apply border-border;
+        border-color: var(--border);
     }
 
     body {
-        @apply bg-background text-foreground;
-    }
-}
-
-@layer components {
-
-    /* Custom classes for glassmorphism */
-    .glass-card {
-        @apply bg-white/30 backdrop-blur-lg rounded-xl border border-white/20 shadow-lg;
-    }
-
-    .btn-primary {
-        @apply px-4 py-2 bg-primary text-white rounded-lg hover: bg-primary/90 transition-all;
-    }
-
-    .btn-secondary {
-        @apply px-4 py-2 bg-secondary text-white rounded-lg hover: bg-secondary/90 transition-all;
-    }
-
-    .form-input {
-        @apply w-full p-2 border border-gray-300 rounded-lg focus: outline-none focus:ring-2 focus:ring-primary/50;
+        background-color: hsl(var(--background));
+        color: hsl(var(--foreground));
     }
 }

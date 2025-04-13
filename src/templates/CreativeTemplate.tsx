@@ -10,18 +10,18 @@ const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data }) => {
   const { personalInfo, experiences, education, skills, projects, certificates } = data;
 
   return (
-    <div className="bg-white text-gray-800 p-8 max-w-4xl mx-auto" id="resume-template">
-      <div className="grid grid-cols-12 gap-6">
+    <div className="bg-gradient-to-br from-white to-purple-50 text-gray-800 p-8 max-w-4xl mx-auto shadow-xl rounded-xl transition-all duration-300" id="resume-template">
+      <div className="grid grid-cols-12 gap-8">
         {/* Left Sidebar */}
-        <div className="col-span-4 bg-purple-100 p-6 rounded-lg">
+        <div className="col-span-4 bg-gradient-to-br from-purple-100 to-purple-50 p-6 rounded-xl shadow-lg transform hover:scale-[1.02] transition-transform duration-300">
           {/* Profile */}
-          <div className="mb-8 text-center">
-            <div className="w-32 h-32 bg-purple-200 rounded-full mx-auto mb-4 flex items-center justify-center">
-              <span className="text-3xl font-bold text-purple-700">
+          <div className="mb-8 text-center transform hover:-translate-y-1 transition-transform duration-300">
+            <div className="w-32 h-32 bg-gradient-to-br from-purple-300 to-purple-100 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg ring-4 ring-purple-100 ring-opacity-50">
+              <span className="text-3xl font-bold text-purple-800 tracking-wider">
                 {personalInfo.fullName.split(' ').map(name => name[0]).join('')}
               </span>
             </div>
-            <h1 className="text-xl font-bold text-purple-800 mb-1">{personalInfo.fullName}</h1>
+            <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-purple-600 mb-2">{personalInfo.fullName}</h1>
             
             <div className="space-y-1 text-sm">
               {personalInfo.email && (
@@ -56,8 +56,8 @@ const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data }) => {
           
           {/* Skills */}
           {skills.length > 0 && (
-            <div className="mb-8">
-              <h2 className="text-lg font-bold text-purple-800 mb-3 border-b-2 border-purple-300 pb-1">Skills</h2>
+            <div className="mb-8 transform hover:-translate-y-1 transition-transform duration-300">
+              <h2 className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-purple-600 mb-4 border-b-2 border-purple-200 pb-2">Skills</h2>
               
               <div className="space-y-3">
                 {skills.map(skill => (
@@ -104,19 +104,19 @@ const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data }) => {
         </div>
         
         {/* Main Content */}
-        <div className="col-span-8">
+        <div className="col-span-8 space-y-8">
           {/* Summary */}
           {personalInfo.summary && (
-            <div className="mb-8">
-              <h2 className="text-xl font-bold text-purple-800 mb-3 border-b-2 border-purple-300 pb-1">About Me</h2>
-              <p className="text-sm leading-relaxed">{personalInfo.summary}</p>
+            <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <h2 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-purple-600 mb-4 border-b-2 border-purple-200 pb-2">About Me</h2>
+              <p className="text-sm leading-relaxed text-gray-700">{personalInfo.summary}</p>
             </div>
           )}
           
           {/* Experience */}
           {experiences.length > 0 && (
-            <div className="mb-8">
-              <h2 className="text-xl font-bold text-purple-800 mb-3 border-b-2 border-purple-300 pb-1">Work Experience</h2>
+            <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <h2 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-purple-600 mb-4 border-b-2 border-purple-200 pb-2">Work Experience</h2>
               
               <div className="space-y-6">
                 {experiences.map(exp => (
@@ -146,17 +146,17 @@ const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data }) => {
           
           {/* Projects */}
           {projects.length > 0 && (
-            <div className="mb-8">
-              <h2 className="text-xl font-bold text-purple-800 mb-3 border-b-2 border-purple-300 pb-1">Projects</h2>
+            <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <h2 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-purple-600 mb-4 border-b-2 border-purple-200 pb-2">Projects</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {projects.map(project => (
-                  <div key={project.id} className="bg-purple-50 p-4 rounded-lg">
+                  <div key={project.id} className="bg-gradient-to-br from-purple-50 to-white p-5 rounded-lg shadow hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
                     <h3 className="font-bold text-purple-700">
                       {project.name}
-                      {project.link && (
+                      {project.url && (
                         <a 
-                          href={project.link} 
+                          href={project.url} 
                           target="_blank" 
                           rel="noopener noreferrer" 
                           className="ml-2 text-purple-500 text-xs"
@@ -170,11 +170,9 @@ const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data }) => {
                     
                     {project.technologies.length > 0 && (
                       <div className="flex flex-wrap gap-1 mt-2">
-                        {project.technologies.map((tech, index) => (
-                          <span key={index} className="bg-purple-200 text-purple-800 text-xs px-2 py-1 rounded-full">
-                            {tech}
-                          </span>
-                        ))}
+                        
+                          Technologies: {Array.isArray(project.technologies) ? project.technologies.join(', ') : project.technologies}
+          
                       </div>
                     )}
                   </div>
@@ -185,8 +183,8 @@ const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data }) => {
           
           {/* Certificates */}
           {certificates.length > 0 && (
-            <div>
-              <h2 className="text-xl font-bold text-purple-800 mb-3 border-b-2 border-purple-300 pb-1">Certifications</h2>
+            <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <h2 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-purple-600 mb-4 border-b-2 border-purple-200 pb-2">Certifications</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {certificates.map(cert => (
@@ -240,4 +238,4 @@ const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data }) => {
   );
 };
 
-export default CreativeTemplate; 
+export default CreativeTemplate;

@@ -31,6 +31,8 @@ const CertificatesForm: React.FC = () => {
   // State for the form
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [dateError, setDateError] = useState('');
+
   const [formData, setFormData] = useState<Certificate>({
     id: '',
     name: '',
@@ -51,12 +53,32 @@ const CertificatesForm: React.FC = () => {
     setEditingId(null);
   };
 
+  const validateDate = (date: string) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const certDate = new Date(date);
+    certDate.setHours(0, 0, 0, 0);
+
+    if (certDate > today) {
+      return 'Issue date cannot be in the future';
+    }
+    return '';
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
+    const newFormData = {
+      ...formData,
       [name]: value,
-    }));
+    };
+    setFormData(newFormData);
+
+    // Validate date when date field changes
+    if (name === 'date') {
+      const error = validateDate(value);
+      setDateError(error);
+    }
   };
 
   const handleSubmit = () => {
@@ -95,7 +117,7 @@ const CertificatesForm: React.FC = () => {
     // This is already handled by individual add/update/remove operations
   };
 
-  const isFormValid = formData.name && formData.issuer && formData.date;
+  const isFormValid = formData.name && formData.issuer && formData.date && !dateError;
 
   return (
     <motion.div
@@ -145,6 +167,9 @@ const CertificatesForm: React.FC = () => {
                   value={formData.date}
                   onChange={handleChange}
                   required
+                  maxDate={new Date().toISOString().split('T')[0]}
+                  error={dateError}
+                  helperText={dateError || "When was this certification issued?"}
                 />
               </Grid>
               
@@ -247,4 +272,4 @@ const CertificatesForm: React.FC = () => {
   );
 };
 
-export default CertificatesForm; 
+export default CertificatesForm;

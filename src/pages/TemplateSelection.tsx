@@ -122,7 +122,7 @@ ${resumeData.projects.map((proj, index) => `
 Project ${index + 1}:
 - Name: ${proj.name}
 - Description: ${proj.description}
-- Technologies: ${proj.technologies.join(', ')}
+- Technologies: ${Array.isArray(proj.technologies) ? proj.technologies.join(', ') : proj.technologies}
 `).join('\n')}
 
 Please provide the following in your response, tailored specifically to the ${selectedTemplate} style:

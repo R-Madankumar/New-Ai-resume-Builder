@@ -37,7 +37,7 @@ export interface Education {
 export interface Skill {
   id?: string;
   name: string;
-  level: string;
+  level: number;
   category?: string;
 }
 
@@ -45,8 +45,8 @@ export interface Project {
   id?: string;
   name: string;
   description: string;
-  technologies: string[] | string;
-  url?: string;
+  technologies: string[];
+  link?: string;
   startDate?: string;
   endDate?: string;
   current?: boolean;
@@ -69,4 +69,4 @@ export interface ResumeData {
   projects: Project[];
   certificates: Certificate[];
   template: 'modern' | 'minimal' | 'creative' | 'professional';
-} 
+}

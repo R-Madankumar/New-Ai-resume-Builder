@@ -67,6 +67,9 @@ interface FormFieldProps {
   max?: number;
   enhanceWithAI?: (text: string) => Promise<void>;
   helperText?: string;
+  minDate?: string;
+  maxDate?: string;
+  error?: string;
 }
 
 const FormField: React.FC<FormFieldProps> = ({
@@ -81,6 +84,9 @@ const FormField: React.FC<FormFieldProps> = ({
   max,
   enhanceWithAI,
   helperText,
+  minDate,
+  maxDate,
+  error,
 }) => {
   // Create a ref for the date input
   const dateInputRef = React.useRef<HTMLInputElement>(null);
@@ -159,6 +165,7 @@ const FormField: React.FC<FormFieldProps> = ({
               required={required}
               variant="outlined"
               fullWidth
+              error={!!error}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end" onClick={handleCalendarClick}>
@@ -173,9 +180,9 @@ const FormField: React.FC<FormFieldProps> = ({
                 }
               }}
             />
-            {helperText && (
+            {(error || helperText) && (
               <FormHelperText sx={{ mt: 0.5, ml: 1.5 }}>
-                {helperText}
+                {error || helperText}
               </FormHelperText>
             )}
           </Box>
@@ -205,4 +212,4 @@ const FormField: React.FC<FormFieldProps> = ({
   );
 };
 
-export default FormField; 
+export default FormField;

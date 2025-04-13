@@ -109,9 +109,9 @@ const ProfessionalTemplate: React.FC<ProfessionalTemplateProps> = ({ data }) => 
                   <div key={project.id}>
                     <div className="flex justify-between items-baseline">
                       <h3 className="font-bold">{project.name}</h3>
-                      {project.link && (
+                      {project.url && (
                         <a 
-                          href={project.link} 
+                          href={project.url} 
                           target="_blank" 
                           rel="noopener noreferrer" 
                           className="text-blue-700 text-sm"
@@ -125,8 +125,7 @@ const ProfessionalTemplate: React.FC<ProfessionalTemplateProps> = ({ data }) => 
                     
                     {project.technologies.length > 0 && (
                       <div className="text-sm">
-                        <span className="font-medium">Technologies: </span>
-                        <span>{project.technologies.join(', ')}</span>
+                       Technologies: {Array.isArray(project.technologies) ? project.technologies.join(', ') : project.technologies}
                       </div>
                     )}
                   </div>

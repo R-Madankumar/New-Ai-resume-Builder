@@ -166,9 +166,9 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
                 <div className="flex justify-between items-start">
                   <h3 className="font-medium">
                     {project.name}
-                    {project.link && (
+                    {project.url && (
                       <a 
-                        href={project.link} 
+                        href={project.url} 
                         target="_blank" 
                         rel="noopener noreferrer" 
                         className="ml-2 text-primary text-sm"
@@ -183,11 +183,8 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
                 
                 {project.technologies.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-1">
-                    {project.technologies.map((tech, index) => (
-                      <span key={index} className="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded">
-                        {tech}
-                      </span>
-                    ))}
+                   
+                   Technologies: {Array.isArray(project.technologies) ? project.technologies.join(', ') : project.technologies}
                   </div>
                 )}
               </div>

@@ -33,6 +33,11 @@ const ExperienceForm: React.FC = () => {
   // State for the form
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [dateErrors, setDateErrors] = useState({
+    startDate: '',
+    endDate: ''
+  });
+
   const [formData, setFormData] = useState<Experience>({
     id: '',
     company: '',
@@ -61,12 +66,53 @@ const ExperienceForm: React.FC = () => {
     setEditingId(null);
   };
 
+  const validateDates = (dates: { startDate: string; endDate: string }) => {
+    const errors = {
+      startDate: '',
+      endDate: ''
+    };
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const startDate = new Date(dates.startDate);
+    startDate.setHours(0, 0, 0, 0);
+
+    if (startDate > today) {
+      errors.startDate = 'Start date cannot be in the future';
+    }
+
+    if (dates.endDate && !formData.current) {
+      const endDate = new Date(dates.endDate);
+      endDate.setHours(0, 0, 0, 0);
+
+      if (endDate > today) {
+        errors.endDate = 'End date cannot be in the future';
+      }
+      if (endDate < startDate) {
+        errors.endDate = 'End date must be after start date';
+      }
+    }
+
+    return errors;
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
+    const newFormData = {
+      ...formData,
       [name]: value,
-    }));
+    };
+    setFormData(newFormData);
+
+    // Validate dates when either date field changes
+    if (name === 'startDate' || name === 'endDate') {
+      const dateErrors = validateDates({
+        startDate: name === 'startDate' ? value : formData.startDate,
+        endDate: name === 'endDate' ? value : formData.endDate
+      });
+      setDateErrors(dateErrors);
+    }
   };
 
   const handleSwitchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -145,7 +191,13 @@ const ExperienceForm: React.FC = () => {
     // This is already handled by individual add/update/remove operations
   };
 
-  const isFormValid = formData.company && formData.position && formData.startDate && (formData.current || formData.endDate);
+  const isFormValid = 
+    formData.company && 
+    formData.position && 
+    formData.startDate && 
+    (formData.current || formData.endDate) &&
+    !dateErrors.startDate &&
+    !dateErrors.endDate;
 
   return (
     <motion.div
@@ -203,7 +255,9 @@ const ExperienceForm: React.FC = () => {
                   value={formData.startDate}
                   onChange={handleChange}
                   required
-                  helperText="When did you start this position?"
+                  maxDate={new Date().toISOString().split('T')[0]}
+                  error={dateErrors.startDate}
+                  helperText={dateErrors.startDate || "When did you start this position?"}
                 />
               </Grid>
               
@@ -242,7 +296,10 @@ const ExperienceForm: React.FC = () => {
                     value={formData.endDate}
                     onChange={handleChange}
                     required={!formData.current}
-                    helperText="When did you leave this position?"
+                    minDate={formData.startDate}
+                    maxDate={new Date().toISOString().split('T')[0]}
+                    error={dateErrors.endDate}
+                    helperText={dateErrors.endDate || "When did you leave this position?"}
                   />
                 </Grid>
               )}
@@ -406,4 +463,4 @@ const ExperienceForm: React.FC = () => {
   );
 };
 
-export default ExperienceForm; 
+export default ExperienceForm;

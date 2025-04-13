@@ -39,7 +39,7 @@ const ProjectsForm: React.FC = () => {
     name: '',
     description: '',
     technologies: [],
-    link: ''
+    url: ''
   });
   const [newTechnology, setNewTechnology] = useState('');
 
@@ -49,19 +49,35 @@ const ProjectsForm: React.FC = () => {
       name: '',
       description: '',
       technologies: [],
-      link: ''
+      url: ''
     });
     setNewTechnology('');
     setIsEditing(false);
     setEditingId(null);
   };
 
+  const [enhanceError, setEnhanceError] = useState('');
+  const [isEnhancing, setIsEnhancing] = useState(false);
+  
+  const validateProjectUrl = (url: string): boolean => {
+    if (!url) return true;
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value,
-    }));
+    if (name === 'link' && value && !validateProjectUrl(value)) {
+      setFormData(prev => ({ ...prev, [name]: value }));
+      setEnhanceError('Please enter a valid URL');
+      return;
+    }
+    setFormData(prev => ({ ...prev, [name]: value }));
+    setEnhanceError('');
   };
 
   const handleAddTechnology = () => {
@@ -77,7 +93,9 @@ const ProjectsForm: React.FC = () => {
   const handleRemoveTechnology = (index: number) => {
     setFormData(prev => ({
       ...prev,
-      technologies: prev.technologies.filter((_, i) => i !== index)
+      // The error occurs because TypeScript infers that prev.technologies could be either a string or string[]
+      // We need to ensure it's treated as an array before using filter
+      technologies: Array.isArray(prev.technologies) ? prev.technologies.filter((_, i) => i !== index) : []
     }));
   };
 
@@ -115,14 +133,17 @@ const ProjectsForm: React.FC = () => {
   const handleEnhanceDescription = async () => {
     if (!formData.description.trim()) return;
     
+    setIsEnhancing(true);
+    setEnhanceError('');
+    
     try {
       const enhancedText = await enhanceWithAI(formData.description, 'project');
-      setFormData(prev => ({
-        ...prev,
-        description: enhancedText,
-      }));
+      setFormData(prev => ({ ...prev, description: enhancedText }));
     } catch (error) {
+      setEnhanceError('Failed to enhance description. Please try again.');
       console.error('Error enhancing description:', error);
+    } finally {
+      setIsEnhancing(false);
     }
   };
 
@@ -131,7 +152,9 @@ const ProjectsForm: React.FC = () => {
     // This is already handled by individual add/update/remove operations
   };
 
-  const isFormValid = formData.name && formData.description;
+  const isFormValid = formData.name && 
+    formData.description && 
+    (formData.url ? validateProjectUrl(formData.url) : true);
 
   return (
     <motion.div
@@ -166,9 +189,11 @@ const ProjectsForm: React.FC = () => {
                 <FormField
                   label="Project URL"
                   name="link"
-                  value={formData.link || ''}
+                  value={formData.url || ''}
                   onChange={handleChange}
                   placeholder="https://github.com/username/project"
+                  error={enhanceError && formData.url ? enhanceError : ''}
+                  helperText={enhanceError && formData.url ? enhanceError : 'Optional: Add a link to your project'}
                 />
               </Grid>
               
@@ -188,10 +213,10 @@ const ProjectsForm: React.FC = () => {
                     size="small"
                     startIcon={<EnhanceIcon />}
                     onClick={handleEnhanceDescription}
-                    disabled={!formData.description.trim()}
+                    disabled={!formData.description.trim() || isEnhancing}
                     sx={{ mt: 1 }}
                   >
-                    Enhance with AI
+                    {isEnhancing ? 'Enhancing...' : 'Enhance with AI'}
                   </Button>
                 </Box>
               </Grid>
@@ -234,7 +259,7 @@ const ProjectsForm: React.FC = () => {
                 </Box>
                 
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                  {formData.technologies.map((tech, index) => (
+                  {Array.isArray(formData.technologies) && formData.technologies.map((tech, index) => (
                     <Chip
                       key={index}
                       label={tech}
@@ -284,12 +309,12 @@ const ProjectsForm: React.FC = () => {
                     <Box>
                       <Typography variant="h6">
                         {project.name}
-                        {project.link && (
+                        {project.url && (
                           <IconButton 
                             size="small" 
                             color="primary" 
                             component="a" 
-                            href={project.link} 
+                            href={project.url} 
                             target="_blank"
                             sx={{ ml: 1 }}
                           >
@@ -320,7 +345,7 @@ const ProjectsForm: React.FC = () => {
                         Technologies:
                       </Typography>
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                        {project.technologies.map((tech, index) => (
+                        {Array.isArray(project.technologies) && project.technologies.map((tech, index) => (
                           <Chip
                             key={index}
                             label={tech}
@@ -350,4 +375,4 @@ const ProjectsForm: React.FC = () => {
   );
 };
 
-export default ProjectsForm; 
+export default ProjectsForm;

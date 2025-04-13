@@ -323,8 +323,10 @@ SKILLS: [reorganized skills with levels]`;
                   const category = categoryMatch[1].trim();
                   const skillsInCategory = categoryMatch[2].trim()
                     .split(/,|\n/)
-                    .map(s => s.trim())
-                    .filter(s => s.length > 0);
+                    // This error occurs because TypeScript requires explicit type annotations for function parameters
+                    // when strict type checking is enabled. We specify string type for the parameter 's'
+                    .map((s: string) => s.trim())
+                    .filter((s: string) => s.length > 0);
                   
                   for (const skillText of skillsInCategory) {
                     // Try to extract level if it exists
@@ -350,7 +352,7 @@ SKILLS: [reorganized skills with levels]`;
                 // Preserve IDs from original skills where possible
                 for (let i = 0; i < processedSkills.length; i++) {
                   if (i < updatedResumeData.skills.length) {
-                    processedSkills[i].id = updatedResumeData.skills[i].id;
+                    processedSkills[i] = { ...processedSkills[i], id: updatedResumeData.skills[i].id };
                   }
                 }
                 updatedResumeData.skills = processedSkills;
@@ -359,8 +361,8 @@ SKILLS: [reorganized skills with levels]`;
               // Skills are in a flat list
               const skillsList = skillsText
                 .split(/,|\n/)
-                .map(s => s.trim())
-                .filter(s => s.length > 0);
+                .map((s: string) => s.trim())
+                .filter((s: string) => s.length > 0);
               
               const processedSkills = [];
               
@@ -384,7 +386,7 @@ SKILLS: [reorganized skills with levels]`;
                 // Preserve IDs from original skills where possible
                 for (let i = 0; i < processedSkills.length; i++) {
                   if (i < updatedResumeData.skills.length) {
-                    processedSkills[i].id = updatedResumeData.skills[i].id;
+                    processedSkills[i] = { ...processedSkills[i], id: updatedResumeData.skills[i].id };
                   }
                 }
                 updatedResumeData.skills = processedSkills;
@@ -755,17 +757,17 @@ SKILLS: [reorganized skills with levels]`;
               </MenuItem>
             </Menu>
             
-            <Tooltip title="Print Resume">
+            {/* <Tooltip title="Print Resume">
               <IconButton color="primary" onClick={printResume}>
                 <PrintIcon />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
             
-            <Tooltip title="Share Resume">
+            {/* <Tooltip title="Share Resume">
               <IconButton color="primary" onClick={handleShareResume}>
                 <ShareIcon />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
           </Box>
         </Box>
         
@@ -782,12 +784,12 @@ SKILLS: [reorganized skills with levels]`;
               icon={<VisibilityIcon fontSize="small" />} 
               iconPosition="start"
             />
-            <Tab 
+            {/* <Tab 
               value="print" 
               label="Print View" 
               icon={<PrintIcon fontSize="small" />} 
               iconPosition="start"
-            />
+            /> */}
           </Tabs>
           
           <ToggleButtonGroup
